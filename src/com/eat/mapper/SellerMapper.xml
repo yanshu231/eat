@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.eat.mapper.SellerMapper">
+
+<select id="login" parameterType="Seller" resultType="Seller">
+		SELECT * FROM seller where name=#{name} and pass=#{pass}
+	</select>
+
+	<insert id="register" parameterType="Map">
+		INSERT INTO seller(name, pass, tel,addr)
+		VALUES(#{name}, #{pass}, #{tel},#{addr})    
+	</insert>
+
+	<select id="getAll" parameterType="Map" resultType="Map">
+		SELECT * FROM seller where sellid=#{sellid}
+	</select>
+	
+	<select id="getAll2" parameterType="Map" resultType="Map">
+	 select a.*,typename from gsyb a,gsytype b where id=typeid and gsyb like '%${gsyb}%'
+        <!-- 如果按照类型查询 -->
+        <if test="typeid!=-1">
+        and typeid=#{typeid}
+        </if>
+   <if test="bdate!=null">
+   and gsyd &gt; #{bdate} and gsyd &lt; #{edate}
+   </if>
+   limit  ${(pageNum-1)*2},2
+    </select>
+	
+	
+	<select id="getTypes"  resultType="Map">
+        SELECT * FROM  addr
+    </select>
+	
+	<update id="update" parameterType="Map">
+            UPDATE seller SET
+            name=#{name}, pass=#{pass}, tel=#{tel}, addr=#{addr}
+            WHERE sellid = #{oldsellid}
+    </update>
+	 
+	 <delete id="delete" parameterType="String">
+		DELETE FROM seller where sellid in (${ids})
+	</delete>
+    	
+	<select id="check" parameterType="String"  resultType="Integer">
+		SELECT * FROM seller where name=#{name} 
+	</select>
+	
+
+	
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.eat.mapper.MemberMapper">
+
+<select id="login" parameterType="Member" resultType="Member">
+		SELECT * FROM member where memid=#{memid} and mempass=#{mempass}
+	</select>	
+	
+	<select id="check" parameterType="String"  resultType="Integer">
+		SELECT * FROM member where memid=#{memid} 
+	</select>
+
+	<insert id="register" parameterType="Map">
+		INSERT INTO member(memid,mempass,memalias)
+		VALUES(#{memid},#{mempass},#{memalias})    
+	</insert>
+	
+	<select id="getAll" parameterType="Map" resultType="Map">
+		select * from member where memid=#{memid}
+	</select>
+	
+	<update id="update" parameterType="Map">
+	<!-- orderId, productId, name,money,image,price,num,money -->
+            UPDATE member SET
+            mempass=#{mempass}, memalias=#{memalias}
+            WHERE memid = #{oldmemid}
+    </update>
+	 
+	 <delete id="delete" parameterType="String">
+		DELETE FROM member where memid in (${ids})
+	</delete>
+    	
+	<select id="getObject" parameterType="Member"  resultType="Member">
+		SELECT * FROM member where memid=#{memid} 
+	</select>
+	
+
+</mapper>
